@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lodjinha/src/home/home_controller.dart';
-import 'package:lodjinha/src/util/locator.dart';
+import 'package:lodjinha/src/util/my_locator.dart';
 
 import '../widgets/widgets.dart';
 import 'widgets/widgets_home.dart';
@@ -33,13 +33,25 @@ class _HomePageState extends State<HomePage> {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              PrincipalSlider(imgList: controller.imgList),
+              FutureBuilder(
+                future: controller.getBanner(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return const Center(child: Text('Erro ao carregar'));
+                    }
+                    return PrincipalSlider(imgList: controller.imgList);
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
               const CategoryListLdj(),
               const ListProductMoreSale(),
             ],
           )),
       bottomNavigationBar: BottomNavBarTeste(
-        controller: Locator.getController(),
+        controller: MyLocator.getController(),
       ),
     );
   }

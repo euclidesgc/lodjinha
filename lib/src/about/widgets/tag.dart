@@ -8,7 +8,7 @@ class TagLdj extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      'images/tag.png',
+      'assets/images/tag.png',
       alignment: Alignment.center,
       width: 200,
     );

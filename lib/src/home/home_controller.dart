@@ -6,12 +6,7 @@ import 'package:lodjinha/src/home/models/category_model.dart';
 class HomeController {
   final dio = Dio();
 
-  final imgList = [
-    'http://placehold.it/900x300',
-    'http://placekitten.com/1000/300',
-    'http://placehold.it/900x300',
-    'http://placekitten.com/1000/300',
-  ];
+  final imgList = <String>[];
 
   getBanner() async {
     const url =
@@ -24,6 +19,10 @@ class HomeController {
         log('id: ${categoryModel.data[0].id}');
         log('name: ${categoryModel.data[0].name}');
         log('imageUrl: ${categoryModel.data[0].imageUrl}');
+
+        for (var element in categoryModel.data) {
+          imgList.add(element.imageUrl);
+        }
       } else {
         log('error');
       }
