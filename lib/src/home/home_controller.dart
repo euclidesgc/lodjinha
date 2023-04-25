@@ -9,19 +9,15 @@ class HomeController {
   final imgList = <String>[];
 
   getBanner() async {
-    const url =
-        'https://directus-production-e852.up.railway.app/items/categories';
+    const url = 'http://192.168.1.2:3002/categories';
     try {
       final response = await dio.get(url);
       if (response.statusCode == 200) {
         CategoryModel categoryModel =
             CategoryModel.fromJson(response.data as Map<String, dynamic>);
-        log('id: ${categoryModel.data[0].id}');
-        log('name: ${categoryModel.data[0].name}');
-        log('imageUrl: ${categoryModel.data[0].imageUrl}');
 
-        for (var element in categoryModel.data) {
-          imgList.add(element.imageUrl);
+        for (var element in categoryModel.data.categories) {
+          imgList.add(element.image);
         }
       } else {
         log('error');

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final categoryModel = categoryModelFromJson(jsonString);
-
 import 'dart:convert';
 
 class CategoryModel {
@@ -9,7 +5,7 @@ class CategoryModel {
     required this.data,
   });
 
-  final List<Datum> data;
+  final Data data;
 
   factory CategoryModel.fromRawJson(String str) =>
       CategoryModel.fromJson(json.decode(str));
@@ -17,38 +13,64 @@ class CategoryModel {
   String toRawJson() => json.encode(toJson());
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data.toJson(),
       };
 }
 
-class Datum {
-  Datum({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
+class Data {
+  Data({
+    required this.categories,
   });
 
-  final String id;
-  final String name;
-  final String imageUrl;
+  final List<Category> categories;
 
-  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
+  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        categories: List<Category>.from(
+            json["categories"].map((x) => Category.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+      };
+}
+
+class Category {
+  Category({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.image,
+  });
+
+  final int id;
+  final String name;
+  final String description;
+  final String image;
+
+  factory Category.fromRawJson(String str) =>
+      Category.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
         name: json["name"],
-        imageUrl: json["imageUrl"],
+        description: json["description"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "imageUrl": imageUrl,
+        "description": description,
+        "image": image,
       };
 }
